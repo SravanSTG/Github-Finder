@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn-ghost {
+    background-color: #2b3440ff;
+    color: #cccdd0ff;
+}
+
 .btn-ghost:hover {
     background-color: #cccdd0ff;
     color: #2b3440ff;
