@@ -1,5 +1,5 @@
 import { ReactNode, useState, createContext, useReducer } from "react";
-import { User } from "../../interfaces";
+import { User, UserProfile } from "../../interfaces";
 import axios from "axios";
 import githubReducer from "./GithubReducer";
 
@@ -10,12 +10,15 @@ interface Props {
 export interface GithubContextType {
   users: User[];
   loading: boolean;
+  user: UserProfile;
   searchUsers: (name: string) => void;
   clearUsers: () => void;
+  getUser: (login: string) => void;
 }
 
 export interface GithubReducerState {
   users: User[],
+  user: UserProfile,
   loading: boolean,
 }
 
@@ -27,6 +30,7 @@ export const GithubProvider: React.FC<Props> = ({ children }) => {
 
   const initialState: GithubReducerState = {
     users: [],
+    user: {} as UserProfile,
     loading: false,
   };
 
@@ -67,6 +71,30 @@ export const GithubProvider: React.FC<Props> = ({ children }) => {
     })
   }
 
+  // Get single user
+  const getUser = (login: string) => {
+    if (!login) {
+      return;
+    }
+
+    setLoading();
+
+    axios({
+      method: 'GET',
+      url: `${process.env.REACT_APP_GITHUB_URL}/users/${login}`,
+    }).then((response) => {
+      console.log(response);
+      if (response.status === 404) {
+        window.location.href = '/notfound'
+      } else {
+        dispatch({
+          type: "GET_SINGLE_USER",
+          payload: response.data,
+        });
+      }
+    })
+  }
+
   const clearUsers = () => {
     dispatch({
       type: "CLEAR_USERS"
@@ -81,7 +109,7 @@ export const GithubProvider: React.FC<Props> = ({ children }) => {
 
   return (
     <GithubContext.Provider
-      value={{ users: state.users, loading: state.loading, searchUsers, clearUsers }}
+      value={{ users: state.users, loading: state.loading, user: state.user, searchUsers, clearUsers, getUser }}
     >
       {children}
     </GithubContext.Provider>

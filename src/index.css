@@ -11,3 +11,12 @@
     background-color: #cccdd0ff;
     color: #2b3440ff;
 }
+
+.custom-card-image .card.image-full::before {
+    border-radius: 8px;
+    opacity: 0.45;
+}
+
+.card-body p {
+    flex-grow: unset;
+}

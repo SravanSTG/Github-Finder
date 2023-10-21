@@ -1,8 +1,9 @@
-import { User } from "../../interfaces";
+import { User, UserProfile } from "../../interfaces";
 import { GithubReducerState } from "./GithubContext";
 
 export type GithubReducerAction =
   | { type: 'GET_USERS'; payload: User[] }
+  | { type: 'GET_SINGLE_USER', payload: UserProfile }
   | { type: 'SET_LOADING' }
   | { type: 'CLEAR_USERS' }
 
@@ -14,6 +15,13 @@ const githubReducer = (state: GithubReducerState, action: GithubReducerAction) =
         users: action.payload,
         loading: false,
       };
+    case "GET_SINGLE_USER": {
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+      };
+    }  
     case "SET_LOADING":
       return {
         ...state,
