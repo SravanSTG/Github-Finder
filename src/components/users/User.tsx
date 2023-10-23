@@ -3,15 +3,17 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa";
 import GithubContext, { GithubContextType } from "../../context/github/GithubContext";
 import { Link, useParams } from "react-router-dom";
 import Spinner from "../layout/Spinner";
+import RepoList from "../repos/RepoList";
 
 const User = () => {
-  const { user, getUser, loading } = useContext(GithubContext) as GithubContextType;
+  const { user, repos, loading, getUser, getUserRepos } = useContext(GithubContext) as GithubContextType;
 
   const params = useParams();
 
   useEffect(() => {
     if (params.login) {
       getUser(params.login);
+      getUserRepos(params.login);
     }
   }, []);
 
@@ -57,7 +59,7 @@ const User = () => {
             </h1>
             <p>{bio}</p>
             <div className="mt-4 card-actions">
-              <a href={html_url} target="_blank" rel="no-referrer" className="btn btn-outline">Visit Github Profile</a>
+              <a href={html_url} target="_blank" rel="noreferrer" className="btn btn-outline">Visit Github Profile</a>
             </div>
           </div>
 
@@ -129,6 +131,8 @@ const User = () => {
           </div>
         </div>
       </div>
+
+      <RepoList repos={repos} />
     </div>
   </>;
 };
