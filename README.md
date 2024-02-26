@@ -1,7 +1,8 @@
 # Overview
 
-This application allows to search for github users and their repositories.
+A application allows users to find GitHub profiles, access user information, and navigate through their repositories.
 <br />
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Live URL: https://github-finderv1.netlify.app/
